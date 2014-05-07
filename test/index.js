@@ -22,4 +22,39 @@ describe('pathematics', function () {
     expect(url).to.equal('/new/route');
   });
   
+  it('parses the url with segments when the value in the object map is an object', function () {
+    var parse = pathematics({
+      '/test/:segement': {
+        url: '/new/:segement'
+      }
+    });
+    var url = parse('/test/route');
+    expect(url).to.equal('/new/route');
+  });
+  
+  it('parses meta data passed in with object map and segements', function () {
+    var parse = pathematics({
+      '/test/:segement': {
+        status: 301,
+        url: '/new/:segement'
+      }
+    });
+    var data = parse.withMeta('/test/route');
+    
+    expect(data.url).to.equal('/new/route');
+    expect(data.meta.status).to.equal(301);
+  });
+  
+  it('parses meta data from object map without a partailized function', function () {
+    var data = pathematics.withMeta({
+      '/test/:segement': {
+        status: 301,
+        url: '/new/:segement'
+      }
+    }, '/test/route');
+    
+    expect(data.url).to.equal('/new/route');
+    expect(data.meta.status).to.equal(301);
+  });
+  
 });
