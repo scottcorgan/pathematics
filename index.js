@@ -4,13 +4,20 @@ var reverend = require('reverend');
 var pathematics = module.exports = function (map, url) {
   var parse = function (url) {
     var segment = parse._getSegement(map, url);
-    return reverend(segment.value, segment.params);
+    return replaceSegments(segment);
+  }
+  
+  function replaceSegments (segment) {
+    var url = reverend(segment.value, segment.params);
+    
+    return (url === '') ? undefined : url;
   }
   
   parse.withMeta = function (url) {
     var segment = parse._getSegement(map, url);
+    var parsedUrl = replaceSegments(segment);
     
-    return {
+    return (!parsedUrl) ? {} : {
       url: reverend(segment.value, segment.params),
       meta: segment._originalValue
     }
@@ -20,6 +27,12 @@ var pathematics = module.exports = function (map, url) {
     var data = pathetic(map);
     var segment = data(url);
     var originalSegmentValue;
+    
+    // TODO: test having no segment
+    if (!segment) return {
+      value: '',
+      params: {}
+    }; 
     
     // Parse object
     if (typeof segment.value !== 'string') {

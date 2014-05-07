@@ -1,6 +1,6 @@
 {
   "name": "pathematics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parse urls and with Express-like url segments",
   "main": "index.js",
   "directories": {

@@ -24,19 +24,19 @@ describe('pathematics', function () {
   
   it('parses the url with segments when the value in the object map is an object', function () {
     var parse = pathematics({
-      '/test/:segement': {
-        url: '/new/:segement'
+      '/test/:segment': {
+        url: '/new/:segment'
       }
     });
     var url = parse('/test/route');
     expect(url).to.equal('/new/route');
   });
   
-  it('parses meta data passed in with object map and segements', function () {
+  it('parses meta data passed in with object map and segments', function () {
     var parse = pathematics({
-      '/test/:segement': {
+      '/test/:segment': {
         status: 301,
-        url: '/new/:segement'
+        url: '/new/:segment'
       }
     });
     var data = parse.withMeta('/test/route');
@@ -47,14 +47,32 @@ describe('pathematics', function () {
   
   it('parses meta data from object map without a partailized function', function () {
     var data = pathematics.withMeta({
-      '/test/:segement': {
+      '/test/:segment': {
         status: 301,
-        url: '/new/:segement'
+        url: '/new/:segment'
       }
     }, '/test/route');
     
     expect(data.url).to.equal('/new/route');
     expect(data.meta.status).to.equal(301);
+  });
+  
+  it('handles having no matching segments without meta', function () {
+    var data = pathematics({
+      '/test/:segment': '/new/:segment'
+    }, '/none/route');
+    
+    expect(data).to.equal(undefined);
+  });
+  
+  it('handles having no matching segments with meta', function () {
+    var data = pathematics.withMeta({
+      '/test/:segment': {
+        url: '/new/:segment'
+      }
+    }, '/none/route');
+    
+    expect(data).to.eql({});
   });
   
 });
