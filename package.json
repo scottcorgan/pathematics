@@ -1,6 +1,6 @@
 {
   "name": "pathematics",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Parse urls and with Express-like url segments",
   "main": "index.js",
   "directories": {
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/scottcorgan/pathematics",
   "dependencies": {
-    "pathetic": "~0.3.1",
+    "pathetic": "1.x.x",
     "reverend": "~0.2.0"
   },
   "devDependencies": {
